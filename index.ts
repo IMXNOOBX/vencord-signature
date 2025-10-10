@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
+import { addMessagePreSendListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
@@ -33,13 +33,13 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "MessageSignature",
     description: "Allows you to add a signature to your messages",
-    authors: [Devs.imxnoobx],
+    authors: [Devs.Ven], // Devs.imxnoobx - i dont qualify :c
     dependencies: ["MessageEventsAPI"],
 
     settings,
 
     async start() {
-        this.preSend = addPreSendListener((channelId, msg) => {
+        this.preSend = addMessagePreSendListener((channelId, msg) => {
             const message = msg.content;
             let signature = settings.store.signatureText;
 
@@ -49,7 +49,9 @@ export default definePlugin({
             )
                 return;
 
-            if (settings.store.dmOnly && getCurrentChannel().guild_id)
+            const currentChannel = getCurrentChannel();
+
+            if (settings.store.dmOnly && currentChannel?.guild_id)
                 return;
 
             if (settings.store.disableLinkEmbeds)
@@ -65,6 +67,6 @@ export default definePlugin({
     },
 
     stop() {
-        removePreSendListener(this.preSend);
+        removeMessagePreSendListener(this.preSend);
     }
 });
