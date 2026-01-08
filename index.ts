@@ -6,7 +6,6 @@
 
 import { addMessagePreSendListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 
@@ -33,7 +32,10 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "MessageSignature",
     description: "Allows you to add a signature to your messages",
-    authors: [Devs.Ven], // Devs.imxnoobx - i dont qualify :c
+    authors: [{
+        name: "IMXNOOBX",
+        id: 257900031351193600n
+    }],
     dependencies: ["MessageEventsAPI"],
 
     settings,
